@@ -1,10 +1,14 @@
 
+# Graph structure
 class Adapter:
     def __init__(self, parent, number):
         self.number = number
         self.parents = [parent]
         self.childs = []
         self.paths = 1
+
+
+# Function needed for tree traversal
 def get_parent_count(adapterObj):
     if not adapterObj:
         return 1
@@ -19,6 +23,8 @@ with open("adapters", "r") as f:
     adapters = sorted(adapters)
     device = max(adapters) + 3
     adapters.append(device)
+
+    ### PART ONE ###
     differences = {}
     differences[min(adapters)] = 1
     for key, adapter in enumerate(adapters):
@@ -29,7 +35,10 @@ with open("adapters", "r") as f:
             differences[difference] += 1
         else:
             differences[difference] = 1
-    solutions = []
+
+    print("Difference product: %s" % differences[1] * differences[3])
+
+    ### PART TWO ###
     queue = []
     for key, adapter in enumerate(adapters):
 
@@ -59,15 +68,17 @@ with open("adapters", "r") as f:
                 queue.pop(0)
         del copied_queue
     
-    solutions = 0
+
     for key, adapterObj in enumerate(queue):
         if(adapterObj.number == device):
             print("Count during path creation: %s" % adapterObj.paths)
 
-    for key, adapterObj in enumerate(queue):
-        if(adapterObj.number != device):
-            continue
-        else:
-            solutions += get_parent_count(adapterObj)
-    print("Path-Traversal: %s" % solutions)
-    print("Difference product: %s" % differences[1] * differences[3])
+    ### Only run this code to check correctness. Takes a long time to traverse the tree.
+    # solutions = 0
+    # for key, adapterObj in enumerate(queue):
+    #     if(adapterObj.number != device):
+    #         continue
+    #     else:
+    #         solutions += get_parent_count(adapterObj)
+    # print("Tree-Traversal: %s" % solutions)
+

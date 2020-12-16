@@ -73,18 +73,14 @@ with open("puzzle", "r") as f:
         argmin = np.argmin(items[mask][:])
         argmin = np.arange(items.shape[0])[mask][argmin]
         positions[argmin] = pos_position[argmin][0]
-        print("Removing %s" % pos_position[argmin][0])
         remove = pos_position[argmin][0]
         for key in pos_position:
             if remove in pos_position[key]:
                 pos_position[key].remove(remove)
-                print(pos_position[key])
-    print(positions)
-    product = 1
-    for position in positions:
-        print(position)
-        if("departure" in positions[position]):
-            product *= my_ticket[position]
+    product = np.prod([my_ticket[position] for position in positions if "departure" in positions[position]])
+    #for position in positions:
+    #    if("departure" in positions[position]):
+    #        product *= my_ticket[position]
 
     print("Part One: %s" % np.array(invalid).sum())
     print("Part Two: %s" % product)
